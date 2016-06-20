@@ -1,8 +1,14 @@
 package com.dextratech.dto;
 
-//@Entity
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class ProblemInputOutput {
 
+	@Id
+	@GeneratedValue
 	private int problemInputId;
 	private String input;
 	private String output;

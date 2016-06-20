@@ -27,4 +27,22 @@ public class HardCodeProblemSolution implements ProblemSolutionDao {
 		return list;
 	}
 
+	@Override
+	public void addInputOutputToProblemId(int problemId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteInputOutputForProblemId(int problemId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editInputOutputForProblemId(int problemId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
