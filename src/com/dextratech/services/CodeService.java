@@ -10,9 +10,10 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -56,7 +57,7 @@ public class CodeService implements ResourceLoaderAware{
 				codeDTO.setSolutions(createOutputSolutionForInputList(inputs)); 
 			} else {
 				codeDTO.setCompilationStatus(COMPILATION_ERROR);
-				codeDTO.setOutput(compilationError.toString());
+				codeDTO.setOutput(formatError(compilationError.toString()));
 			}
 		} catch (IOException e) {
 			codeDTO.setOutput(e.getMessage());
@@ -65,6 +66,19 @@ public class CodeService implements ResourceLoaderAware{
 		return codeDTO;
 	}
 	
+	private String formatError(String string) {
+		String error = "";
+		Pattern p = Pattern.compile(".java:");
+		Matcher matcher = p.matcher(string);
+		if(matcher.matches()) {
+			error = matcher.group();
+		}
+		if(error.length() == 0) {
+			error = string;
+		}
+		return error;
+	}
+
 	private void createSourceFileWithPath(String path) throws IOException {
 		Path root = Paths.get(path);
 		sourceFilePath = Paths.get(root.toString(), CLASS_NAME + JAVA_SOURCE_EXTENSION);		
@@ -111,7 +125,7 @@ public class CodeService implements ResourceLoaderAware{
 	private OutputSolutionDTO executeProgramForInput(ProblemInputOutput input) throws IOException{
 		try {
 			OutputSolutionDTO output = new OutputSolutionDTO();
-			output.setInputId(input.getProblemInputId());
+			output.setInputId(input.getProblemInputOutputId());
 
 			StringBuilder cmdBuilder = new StringBuilder();
 			cmdBuilder.append("java -cp");

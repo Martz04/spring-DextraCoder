@@ -10,15 +10,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dextratech.dto.CompiledResponseDTO;
+import com.dextratech.dto.Problem;
 import com.dextratech.dto.UserSolutionDTO;
 import com.dextratech.services.CodeService;
+import com.dextratech.services.ProblemService;
 
 @Controller
 public class CodeController {
 
 	@Autowired
 	private CodeService codeService;
-		
+	@Autowired
+	private ProblemService problemService;
+	
+	@RequestMapping(value="/problem/random",
+			produces="application/json",
+			method=RequestMethod.GET)
+	public @ResponseBody Problem setProblemToResolve() {
+		return problemService.getRandomProblem();
+	}
+	
 	@RequestMapping(value="/compile",
 			consumes="application/json",
 			produces="application/json", 

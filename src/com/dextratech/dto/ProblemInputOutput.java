@@ -2,22 +2,24 @@ package com.dextratech.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class ProblemInputOutput {
 
 	@Id
-	@GeneratedValue
-	private int problemInputId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int problemInputOutputId;
 	private String input;
 	private String output;
 	
-	public int getProblemInputId() {
-		return problemInputId;
+	
+	public int getProblemInputOutputId() {
+		return problemInputOutputId;
 	}
-	public void setProblemInputId(int problemInputId) {
-		this.problemInputId = problemInputId;
+	public void setProblemInputOutputId(int problemInputOutputId) {
+		this.problemInputOutputId = problemInputOutputId;
 	}
 	public String getInput() {
 		return input;
@@ -30,6 +32,10 @@ public class ProblemInputOutput {
 	}
 	public void setOutput(String output) {
 		this.output = output;
+	}
+	@Override
+	public String toString() {
+		return "ProblemInputOutput [problemInputOutputId=" + problemInputOutputId + ", input=" + input + ", output=" + output + "]";
 	}
 	
 	
