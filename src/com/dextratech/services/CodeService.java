@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,11 +25,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
+import com.dextratech.dao.ProblemDao;
 import com.dextratech.dao.ProblemSolutionDao;
 import com.dextratech.dto.CompiledResponseDTO;
 import com.dextratech.dto.OutputSolutionDTO;
+import com.dextratech.dto.Problem;
 import com.dextratech.dto.ProblemInputOutput;
 import com.dextratech.dto.UserSolutionDTO;
+import com.dextratech.utils.ParameterUtils;
 
 @Service
 public class CodeService implements ResourceLoaderAware{
@@ -41,9 +45,12 @@ public class CodeService implements ResourceLoaderAware{
 	
 	private Path sourceFilePath;
 	private ResourceLoader resourceLoader;
+	private Problem problem;
 	
 	@Autowired
-	private ProblemSolutionDao problemDao;
+	private ProblemSolutionDao problemSolutionDao;
+	@Autowired
+	private ProblemDao problemDao;
 	
 	public CompiledResponseDTO executeSolutionForProblem(UserSolutionDTO solution, String realPath) {
 		CompiledResponseDTO codeDTO = new CompiledResponseDTO();
@@ -53,7 +60,8 @@ public class CodeService implements ResourceLoaderAware{
 			ByteArrayOutputStream compilationError = compileSourceCode();
 			if(compilationError == null) {
 				codeDTO.setCompilationStatus(COMPILATION_SUCCESS);
-				List<ProblemInputOutput> inputs = problemDao.getSolutionsForProblemId(solution.getProblemId());
+				List<ProblemInputOutput> inputs = problemSolutionDao.getSolutionsForProblemId(solution.getProblemId());
+				problem = problemDao.getProblem(solution.getProblemId());
 				codeDTO.setSolutions(createOutputSolutionForInputList(inputs)); 
 			} else {
 				codeDTO.setCompilationStatus(COMPILATION_ERROR);
@@ -91,6 +99,7 @@ public class CodeService implements ResourceLoaderAware{
 	private void writeSolutionToFile(String solution) throws FileNotFoundException, IOException {
 		PrintWriter dextraWritter = new PrintWriter(sourceFilePath.toFile());
 		StringBuffer buffer = getCodeTemplate();
+		String typeToUse = getCorrectTypeFromArguments();
 		buffer.append(solution);
 		buffer.append('}');
 		dextraWritter.write(buffer.toString());
@@ -98,6 +107,13 @@ public class CodeService implements ResourceLoaderAware{
 		dextraWritter.close();
 	}
 	
+	private String getCorrectTypeFromArguments() throws IOException {
+		Resource resource = resourceLoader.getResource("classpath:com/dextratech/resources/ValueTypes.properties");
+		Properties properties = new Properties();
+		properties.load(resource.getInputStream());
+		return properties.getProperty(ParameterUtils.getValueTypeKey(problem.getInputDescription()));
+	}
+
 	private ByteArrayOutputStream compileSourceCode() {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -133,7 +149,9 @@ public class CodeService implements ResourceLoaderAware{
 			cmdBuilder.append(sourceFilePath.getParent().toAbsolutePath().toString());
 			cmdBuilder.append(" ");
 			cmdBuilder.append(CLASS_NAME);
-			//String commandLeftSide = cmdBuilder.toString();
+			//Get Input parameter type
+			cmdBuilder.append(" ");
+			cmdBuilder.append(ParameterUtils.getParameterFromText(problem.getDescription()));
 			if(input.getInput() != null && input.getInput().length() > 0) {
 				cmdBuilder.append(" ");
 				cmdBuilder.append(input.getInput());
@@ -180,6 +198,7 @@ public class CodeService implements ResourceLoaderAware{
 			String line = br.readLine();
 			while(line != null) {
 				buffer.append(line);
+				buffer.append("\n");
 				line = br.readLine();
 			}
 			return buffer;

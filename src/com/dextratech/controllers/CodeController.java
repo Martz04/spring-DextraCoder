@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dextratech.dto.CompiledResponseDTO;
-import com.dextratech.dto.Problem;
+import com.dextratech.dto.ProblemParametersDTO;
 import com.dextratech.dto.UserSolutionDTO;
 import com.dextratech.services.CodeService;
 import com.dextratech.services.ProblemService;
@@ -26,7 +26,7 @@ public class CodeController {
 	@RequestMapping(value="/problem/random",
 			produces="application/json",
 			method=RequestMethod.GET)
-	public @ResponseBody Problem setProblemToResolve() {
+	public @ResponseBody ProblemParametersDTO setProblemToResolve() {
 		return problemService.getRandomProblem();
 	}
 	

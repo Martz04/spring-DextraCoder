@@ -4,8 +4,73 @@ import java.math.*;
 import java.time.*;
 
 public class DextraCoder {
-
+	private static final String intArray = "int[]";
+	private static final String intValue = "int";
+	private static final String doubleArray = "double[]";
+	private static final String doubleValue = "double";
+	private static final String floatArray = "float[]";
+	private static final String floatValue = "float";
+	private static final String stringValue = "String";
+	private static int[] convertToIntArray(String[] inputs) {
+		int[] intInputs = new int[inputs.length];
+		for (int i = 0; i < inputs.length; i++) {
+			intInputs[i] = Integer.parseInt(inputs[i]);
+		}
+		return intInputs;
+	}
+	private static int convertToInt(String input) {
+		return Integer.parseInt(input);
+	}
+	private static double[] convertToDoubleArray(String[] inputs) {
+		double[] doubleInputs = new double[inputs.length];
+		for (int i = 0; i < inputs.length; i++) {
+			doubleInputs[i] = Double.parseDouble(inputs[i]);
+		}
+		return doubleInputs;
+	}
+	private static double convertToDouble(String input) {
+		return Double.parseDouble(input);
+	}
+	private static float[] convertToFloatArray(String[] inputs) {
+		float[] floatInputs = new float[inputs.length];
+		for (int i = 0; i < inputs.length; i++) {
+			floatInputs[i] = Float.parseFloat(inputs[i]);
+		}
+		return floatInputs;
+	}
+	private static float convertToFloat(String input) {
+		return Float.parseFloat(input);
+	}
 	public static void main(String[] args) {
+		String type = args[0];
+		int n = args.length - 1;
+		String[] args2 = new String[n];
+		System.arraycopy(args, 1, args2, 0, n);
 		DextraCoder coder = new DextraCoder();
-		System.out.println(coder.solution(args));
+		switch (type) {
+		case intArray:
+			System.out.println(coder.solution(convertToIntArray(args2)));
+			break;
+		case intValue:
+			System.out.println(coder.solution(convertToInt(args2[0])));
+			break;
+		case doubleArray:
+			System.out.println(coder.solution(convertToDoubleArray(args2)));
+			break;
+		case doubleValue:
+			System.out.println(coder.solution(convertToDouble(args2[0])));
+			break;
+		case floatArray:
+			System.out.println(coder.solution(convertToFloatArray(args2)));
+			break;
+		case floatValue:
+			System.out.println(coder.solution(convertToFloat(args2[0])));
+			break;
+		case stringValue:
+			System.out.println(coder.solution(args2[0]));
+			break;
+		default:
+			System.out.println(coder.solution(args2));
+			break;
+		}
 	}
