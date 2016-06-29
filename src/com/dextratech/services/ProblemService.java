@@ -19,7 +19,7 @@ public class ProblemService {
 		ProblemParametersDTO dto = new ProblemParametersDTO();
 		Problem problem = problemDao.getProblem(1);
 		dto.setProblem(problem);
-		dto.setInputParams(ParameterUtils.getParameterFromText(problem.getInputDescription()));
+		dto.setInputParams(ParameterUtils.getParameterFromText(problem.getInputDescription()) + " " + "args");
 		dto.setOutputParams(ParameterUtils.getParameterFromText(problem.getOutputDescription()));
 		return dto;
 	}

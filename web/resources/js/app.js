@@ -1,17 +1,13 @@
 (function(){
-	var app = angular.module("codeEditor", []);
+	var app = angular.module("codeEditor", ["codeTimer"]);
 	app.config(function($sceProvider) {
 		$sceProvider.enabled(false);
 	});
 	app.controller("TextController", ["$log", "$scope", "$http", function($log, $scope, $http){
 		this.codeSent = false;
-		this.consoleOutput = "wawa";
+		this.consoleOutput = "";
+		this.problemParam= undefined;
 		var textController = this;
-		angular.element(document).ready(function () {
-			$scope.editor = ace.edit("editor");
-    		$scope.editor.setTheme("ace/theme/eclipse");
-    		$scope.editor.getSession().setMode("ace/mode/java");
-		});
 		this.submitCode = function() {
 			var request = ({
 				method: "POST",
@@ -29,7 +25,23 @@
 			});
 		}
 		this.loadProblem = function() {
-			$scope.problem = inputAtStart;
+			$http.get("problem/random").then(function success(response) {
+				textController.problemParam = response.data;
+				$scope.editor = ace.edit("editor");
+	    		$scope.editor.setTheme("ace/theme/eclipse");
+	    		$scope.editor.$blockScrolling = "Infinity";
+	    		$scope.editor.getSession().setMode("ace/mode/java");
+	    		$scope.editor.insert("public ");
+				$scope.editor.insert(textController.problemParam.outputParams);
+				$scope.editor.insert(" solution(");
+				$scope.editor.insert(textController.problemParam.inputParams);
+				$scope.editor.insert("){\n\treturn\n}");
+			}, function error(response){
+				$log.info("Error" + response.data);
+			});
+		}
+		this.startTimer = function() {
+			
 		}
 		this.isCodeSent = function() {
 			return this.codeSent;

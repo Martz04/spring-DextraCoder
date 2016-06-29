@@ -11,6 +11,51 @@ public class DextraCoder {
 	private static final String floatArray = "float[]";
 	private static final String floatValue = "float";
 	private static final String stringValue = "String";
+	
+	private static void printIntArray(int[] args){
+		System.out.print("[");
+		for (int i = 0; i < args.length; i++) {
+			System.out.print(args[i]);
+			if(i < args.length - 1) {
+				System.out.print(",");
+			}
+		}
+		System.out.print("]");
+	}
+	
+	private static void printDoubleArray(double[] args){
+		System.out.print("[");
+		for (int i = 0; i < args.length; i++) {
+			System.out.print(args[i]);
+			if(i < args.length - 1) {
+				System.out.print(",");
+			}
+		}
+		System.out.print("]");
+	}
+	
+	private static void printFloatArray(float[] args){
+		System.out.print("[");
+		for (int i = 0; i < args.length; i++) {
+			System.out.print(args[i]);
+			if(i < args.length - 1) {
+				System.out.print(",");
+			}
+		}
+		System.out.print("]");
+	}
+	
+	private static void printStringArray(String[] args){
+		System.out.print("[");
+		for (int i = 0; i < args.length; i++) {
+			System.out.print(args[i]);
+			if(i < args.length - 1) {
+				System.out.print(",");
+			}
+		}
+		System.out.print("]");
+	}
+	
 	private static int[] convertToIntArray(String[] inputs) {
 		int[] intInputs = new int[inputs.length];
 		for (int i = 0; i < inputs.length; i++) {
@@ -47,30 +92,3 @@ public class DextraCoder {
 		String[] args2 = new String[n];
 		System.arraycopy(args, 1, args2, 0, n);
 		DextraCoder coder = new DextraCoder();
-		switch (type) {
-		case intArray:
-			System.out.println(coder.solution(convertToIntArray(args2)));
-			break;
-		case intValue:
-			System.out.println(coder.solution(convertToInt(args2[0])));
-			break;
-		case doubleArray:
-			System.out.println(coder.solution(convertToDoubleArray(args2)));
-			break;
-		case doubleValue:
-			System.out.println(coder.solution(convertToDouble(args2[0])));
-			break;
-		case floatArray:
-			System.out.println(coder.solution(convertToFloatArray(args2)));
-			break;
-		case floatValue:
-			System.out.println(coder.solution(convertToFloat(args2[0])));
-			break;
-		case stringValue:
-			System.out.println(coder.solution(args2[0]));
-			break;
-		default:
-			System.out.println(coder.solution(args2));
-			break;
-		}
-	}

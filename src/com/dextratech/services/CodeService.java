@@ -54,6 +54,7 @@ public class CodeService implements ResourceLoaderAware{
 	
 	public CompiledResponseDTO executeSolutionForProblem(UserSolutionDTO solution, String realPath) {
 		CompiledResponseDTO codeDTO = new CompiledResponseDTO();
+		problem = problemDao.getProblem(solution.getProblemId());
 		try {
 			createSourceFileWithPath(realPath);
 			writeSolutionToFile(solution.getAnswer());
@@ -61,7 +62,6 @@ public class CodeService implements ResourceLoaderAware{
 			if(compilationError == null) {
 				codeDTO.setCompilationStatus(COMPILATION_SUCCESS);
 				List<ProblemInputOutput> inputs = problemSolutionDao.getSolutionsForProblemId(solution.getProblemId());
-				problem = problemDao.getProblem(solution.getProblemId());
 				codeDTO.setSolutions(createOutputSolutionForInputList(inputs)); 
 			} else {
 				codeDTO.setCompilationStatus(COMPILATION_ERROR);
@@ -75,15 +75,7 @@ public class CodeService implements ResourceLoaderAware{
 	}
 	
 	private String formatError(String string) {
-		String error = "";
-		Pattern p = Pattern.compile(".java:");
-		Matcher matcher = p.matcher(string);
-		if(matcher.matches()) {
-			error = matcher.group();
-		}
-		if(error.length() == 0) {
-			error = string;
-		}
+		String error = string.substring(string.lastIndexOf(":") + 1);
 		return error;
 	}
 
@@ -100,8 +92,10 @@ public class CodeService implements ResourceLoaderAware{
 		PrintWriter dextraWritter = new PrintWriter(sourceFilePath.toFile());
 		StringBuffer buffer = getCodeTemplate();
 		String typeToUse = getCorrectTypeFromArguments();
-		buffer.append(solution);
-		buffer.append('}');
+		buffer.append(typeToUse);
+		buffer.append("}\n");
+		buffer.append("\t" + solution);
+		buffer.append("}\n");
 		dextraWritter.write(buffer.toString());
 		dextraWritter.flush();
 		dextraWritter.close();
@@ -111,7 +105,8 @@ public class CodeService implements ResourceLoaderAware{
 		Resource resource = resourceLoader.getResource("classpath:com/dextratech/resources/ValueTypes.properties");
 		Properties properties = new Properties();
 		properties.load(resource.getInputStream());
-		return properties.getProperty(ParameterUtils.getValueTypeKey(problem.getInputDescription()));
+		String key  = ParameterUtils.getValueTypeKey(problem.getInputDescription());
+		return properties.getProperty(key);
 	}
 
 	private ByteArrayOutputStream compileSourceCode() {
@@ -154,7 +149,7 @@ public class CodeService implements ResourceLoaderAware{
 			cmdBuilder.append(ParameterUtils.getParameterFromText(problem.getDescription()));
 			if(input.getInput() != null && input.getInput().length() > 0) {
 				cmdBuilder.append(" ");
-				cmdBuilder.append(input.getInput());
+				cmdBuilder.append(input.getInput().replace("[", "").replace("]", "").replace(",", ""));
 			}
 			Process p = Runtime.getRuntime().exec(cmdBuilder.toString());
 			BufferedReader in = new BufferedReader(
@@ -176,6 +171,7 @@ public class CodeService implements ResourceLoaderAware{
 				if(input.getOutput().equals(builder.toString())) {
 					output.setPassed(true);
 				}
+				output.setDetail(builder.toString());
 			}
 			return output;
 		}catch (IOException e) {

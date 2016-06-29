@@ -29,8 +29,6 @@ public class ParameterUtils {
 		if(tryMatching("Array", text) || tryMatching("array", text)) {
 			builder.append("[]");
 		}
-		builder.append(" ");
-		builder.append("args");
 		return builder.toString();
 	}
 	
@@ -44,28 +42,28 @@ public class ParameterUtils {
 		String type = "";
 		switch (getParameterFromText(text)) {
 		case intArray:
-			
+			type = "int.array"; 
 			break;
 		case intValue:
-			
+			type = "int.value";
 			break;
 		case doubleArray:
-			
+			type = "double.array";
 			break;
 		case doubleValue:
-			
+			type = "double.value";
 			break;
 		case floatArray:
-			
+			type = "float.array";
 			break;
 		case floatValue:
-			
+			type = "float.value";
 			break;
 		case stringValue:
-			
+			type = "string.value";
 			break;
 		default:
-			
+			type = "string.array";
 			break;
 		}
 		return type;
