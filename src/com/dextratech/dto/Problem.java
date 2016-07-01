@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,13 +14,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Problem {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="problemId")
 	private int problemId;
-	
 	private String title;
 	private String description;
 	private String inputDescription;
@@ -27,8 +32,8 @@ public class Problem {
 	
 	private int timesSolved;
 	
-	@OneToMany(fetch = FetchType.EAGER, orphanRemoval=false, cascade =CascadeType.ALL)
-	@JoinColumn(name="problemId")
+	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="problemId", nullable=false, updatable=true, insertable=true)
 	private List<ProblemInputOutput> problemInputOutputs;
 	
 	@OneToMany(mappedBy = "id.problem", fetch = FetchType.LAZY, cascade =CascadeType.ALL)
@@ -36,9 +41,7 @@ public class Problem {
 	public int getProblemId() {
 		return problemId;
 	}
-	public void setProblemId(int problemId) {
-		this.problemId = problemId;
-	}
+	
 	public String getDescription() {
 		return description;
 	}

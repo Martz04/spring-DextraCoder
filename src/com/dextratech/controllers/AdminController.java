@@ -5,8 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dextratech.dto.Problem;
+import com.dextratech.dto.ResponseDTO;
 import com.dextratech.services.ProblemService;
 
 @Controller
@@ -20,11 +22,14 @@ public class AdminController {
 		return "problemForm";
 	}
 	
-	@RequestMapping(value="/admin/problemForm/save", method=RequestMethod.POST, consumes="application/json")
-	public String saveProblem(@RequestBody Problem problem) {
-		System.out.println(problem);
-		//problemService.save(problem);
-		
-		return "redirect:/admin";
+	@RequestMapping(value="/admin/problemForm/save", 
+			method=RequestMethod.POST, 
+			produces="application/json",
+			consumes="application/json")
+	public @ResponseBody ResponseDTO saveProblem(@RequestBody Problem problem) {
+		problemService.save(problem);
+		ResponseDTO response = new ResponseDTO();
+		response.setText("Success Adding Data");
+		return response;
 	}
 }

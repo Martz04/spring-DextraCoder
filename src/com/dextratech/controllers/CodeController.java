@@ -40,4 +40,15 @@ public class CodeController {
         return codeService.executeSolutionForProblem(solution, 
 				request.getServletContext().getRealPath("/"));
 	}
+	
+	@RequestMapping(value="/timeout",
+			consumes="application/json",
+			produces="application/json", 
+			method=RequestMethod.POST)
+	public @ResponseBody CompiledResponseDTO timeout(
+			@RequestBody UserSolutionDTO solution, HttpServletRequest request) {
+		 System.out.println("Timeout solving response");
+        return codeService.executeSolutionForProblem(solution, 
+				request.getServletContext().getRealPath("/"));
+	}
 }

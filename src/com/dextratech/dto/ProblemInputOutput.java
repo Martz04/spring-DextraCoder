@@ -1,5 +1,6 @@
 package com.dextratech.dto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,18 +10,16 @@ import javax.persistence.Id;
 public class ProblemInputOutput {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="problemInputOutputId")
 	private int problemInputOutputId;
 	private String input;
 	private String output;
 	
-	
 	public int getProblemInputOutputId() {
 		return problemInputOutputId;
 	}
-	public void setProblemInputOutputId(int problemInputOutputId) {
-		this.problemInputOutputId = problemInputOutputId;
-	}
+	
 	public String getInput() {
 		return input;
 	}
@@ -33,6 +32,7 @@ public class ProblemInputOutput {
 	public void setOutput(String output) {
 		this.output = output;
 	}
+	
 	@Override
 	public String toString() {
 		return "ProblemInputOutput [problemInputOutputId=" + problemInputOutputId + ", input=" + input + ", output=" + output + "]";

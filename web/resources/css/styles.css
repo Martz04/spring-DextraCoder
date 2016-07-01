@@ -126,3 +126,13 @@ Modules
 .timer.green {
 	background-color: green;
 }
+
+/**************
+Form validation
+***************/
+.ng-invalid.ng-dirty {
+	border: 1px solid #FA787E;
+}
+.ng-valid.ng-dirty {
+	border: 1px solid #78FA89;
+}

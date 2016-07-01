@@ -14,6 +14,7 @@
     <script src="<c:url value="/resources/js/angular.min.js" />"></script>
     <script src="<c:url value="/resources/ace-builds/src-min-noconflict/ace.js" />" type="text/javascript" charset="utf-8"></script>
     <script src="<c:url value="/resources/js/timer.js" />"></script>
+    <script src="<c:url value="/resources/js/form.js" />"></script>
     <script src="<c:url value="/resources/js/app.js" />"></script>
   </head>
  <body ng-controller="TextController as textCtrl" ng-init="textCtrl.loadProblem()">

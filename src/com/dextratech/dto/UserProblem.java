@@ -8,8 +8,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="User_has_Problem")
@@ -24,6 +22,7 @@ public class UserProblem {
 	
 	private Timestamp elapsedTime;
 	private int numberOfTries;
+	private String solution;
 	
 	public Timestamp getElapsedTime() {
 		return elapsedTime;
@@ -43,6 +42,13 @@ public class UserProblem {
 	public void setId(UserProblemPK id) {
 		this.id = id;
 	}
+	public String getSolution() {
+		return solution;
+	}
+	public void setSolution(String solution) {
+		this.solution = solution;
+	}
+	
 	
 	
 }

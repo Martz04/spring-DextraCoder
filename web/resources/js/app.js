@@ -1,9 +1,9 @@
 (function(){
-	var app = angular.module("codeEditor", ["codeTimer"]);
+	var app = angular.module("codeEditor", ["codeTimer", "problemForm"]);
 	app.config(function($sceProvider) {
 		$sceProvider.enabled(false);
 	});
-	app.controller("TextController", ["$log", "$scope", "$http", function($log, $scope, $http){
+	app.controller("TextController", ["$log", "$rootScope", "$http", function($log, $rootScope, $http){
 		this.codeSent = false;
 		this.consoleOutput = "";
 		this.problemParam= undefined;
@@ -12,7 +12,7 @@
 			var request = ({
 				method: "POST",
 				url: "compile",
-				data: {problemId: 1, answer: $scope.editor.getValue()}
+				data: {problemId: $rootScope.problemId, answer: $rootScope.editor.getValue()}
 			});
 			$http(request).then(function(data){
 				textController.consoleOutput = data.data;
@@ -27,15 +27,17 @@
 		this.loadProblem = function() {
 			$http.get("problem/random").then(function success(response) {
 				textController.problemParam = response.data;
-				$scope.editor = ace.edit("editor");
-	    		$scope.editor.setTheme("ace/theme/eclipse");
-	    		$scope.editor.$blockScrolling = "Infinity";
-	    		$scope.editor.getSession().setMode("ace/mode/java");
-	    		$scope.editor.insert("public ");
-				$scope.editor.insert(textController.problemParam.outputParams);
-				$scope.editor.insert(" solution(");
-				$scope.editor.insert(textController.problemParam.inputParams);
-				$scope.editor.insert("){\n\treturn\n}");
+				$rootScope.problemId = response.data.problem.problemId;
+				$log.info($rootScope.problemId);
+				$rootScope.editor = ace.edit("editor");
+				$rootScope.editor.setTheme("ace/theme/eclipse");
+				$rootScope.editor.$blockScrolling = "Infinity";
+				$rootScope.editor.getSession().setMode("ace/mode/java");
+				$rootScope.editor.insert("public ");
+				$rootScope.editor.insert(textController.problemParam.outputParams);
+				$rootScope.editor.insert(" solution(");
+				$rootScope.editor.insert(textController.problemParam.inputParams);
+				$rootScope.editor.insert("){\n\treturn\n}");
 			}, function error(response){
 				$log.info("Error" + response.data);
 			});
@@ -45,22 +47,6 @@
 		}
 		this.isCodeSent = function() {
 			return this.codeSent;
-		}
-	}]);
-	app.controller("FormController", ["$http", function($http){
-		this.tab = 1;
-		this.inputs = 1;
-		this.setTab = function(value) {
-			this.tab = value;
-		};
-		this.isSelected = function(value) {
-			return this.tab === value;
-		}
-		this.setInputs = function(value) {
-			this.inputs = value;
-		};
-		this.isInputSelected = function(value) {
-			return this.inputs === value;
 		}
 	}]);
 	var inputAtStart = {
