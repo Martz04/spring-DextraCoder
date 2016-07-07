@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.dextratech.dto.ProblemInputOutput;
 
-public interface ProblemSolutionDao {
+public interface ProblemInputOutputDao {
 
-	public List<ProblemInputOutput> getSolutionsForProblemId(int problemId);
+	public List<ProblemInputOutput> getInputsOutputsForProblemId(int problemId);
 	
 	public void addInputOutputToProblemId(int problemId);
 	public void deleteInputOutputForProblemId(int problemId);

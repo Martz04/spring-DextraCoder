@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.dextratech.dao.ProblemDao;
 import com.dextratech.dto.Problem;
 import com.dextratech.dto.ProblemParametersDTO;
+import com.dextratech.dto.User;
 import com.dextratech.utils.ParameterUtils;
 
 
@@ -15,9 +16,10 @@ public class ProblemService {
 	@Autowired
 	private ProblemDao problemDao;
 	
-	public ProblemParametersDTO getRandomProblem(){
+	public ProblemParametersDTO getRandomProblemForUser(User user){
 		ProblemParametersDTO dto = new ProblemParametersDTO();
 		Problem problem = problemDao.getProblem(1);
+		problem.setUserProblem(null);
 		dto.setProblem(problem);
 		dto.setInputParams(ParameterUtils.getParameterFromText(problem.getInputDescription()) + " " + "args");
 		dto.setOutputParams(ParameterUtils.getParameterFromText(problem.getOutputDescription()));

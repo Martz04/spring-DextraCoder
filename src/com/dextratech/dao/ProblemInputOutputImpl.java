@@ -12,7 +12,7 @@ import com.dextratech.dto.ProblemInputOutput;
 
 @Transactional
 @Repository
-public class ProblemSolutionImpl implements ProblemSolutionDao {
+public class ProblemInputOutputImpl implements ProblemInputOutputDao {
 
 	@Autowired
 	private SessionFactory factory;
@@ -23,7 +23,7 @@ public class ProblemSolutionImpl implements ProblemSolutionDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ProblemInputOutput> getSolutionsForProblemId(int problemId) {
+	public List<ProblemInputOutput> getInputsOutputsForProblemId(int problemId) {
 		return getSession().
 				createQuery("Select problemInputOutputs from Problem p where p.problemId = :problemId").
 				setParameter("problemId", problemId).list();

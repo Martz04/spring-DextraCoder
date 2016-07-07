@@ -14,10 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 public class Problem {
 
@@ -32,12 +28,16 @@ public class Problem {
 	
 	private int timesSolved;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="problemId", nullable=false, updatable=true, insertable=true)
 	private List<ProblemInputOutput> problemInputOutputs;
 	
-	@OneToMany(mappedBy = "id.problem", fetch = FetchType.LAZY, cascade =CascadeType.ALL)
-	private Set<UserProblem> usersPassed = new HashSet<>();
+	@OneToMany(mappedBy = "problem", fetch= FetchType.LAZY)
+	private Set<AssignedProblem> assignedProblems = new HashSet<>();
+	
+	@OneToMany(mappedBy = "problem")
+	private Set<SolvedProblem> userProblem = new HashSet<>();
+	
 	public int getProblemId() {
 		return problemId;
 	}
@@ -80,6 +80,16 @@ public class Problem {
 	public void setOutputDescription(String outputDescription) {
 		this.outputDescription = outputDescription;
 	}
+	
+	
+	public Set<SolvedProblem> getUserProblem() {
+		return userProblem;
+	}
+
+	public void setUserProblem(Set<SolvedProblem> userProblem) {
+		this.userProblem = userProblem;
+	}
+
 	@Override
 	public String toString() {
 		return "Problem [problemId=" + problemId + ", title=" + title + ", description=" + description

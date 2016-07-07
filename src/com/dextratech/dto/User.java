@@ -20,11 +20,14 @@ public class User {
 	private String name;
 	private String password;
 	
-	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL, fetch= FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL, fetch= FetchType.EAGER)
 	private Set<Roles> roles;
 	
-	@OneToMany(mappedBy = "id.user", cascade=CascadeType.ALL, fetch= FetchType.LAZY)
-	private Set<UserProblem> solvedProblems = new HashSet<>();
+	@OneToMany(mappedBy = "user", fetch= FetchType.LAZY)
+	private Set<SolvedProblem> solvedProblems = new HashSet<>();
+	
+	@OneToMany(mappedBy = "user", fetch= FetchType.EAGER)
+	private Set<AssignedProblem> assignedProblems = new HashSet<>();
 	
 	public int getUserId() {
 		return userId;
@@ -50,10 +53,12 @@ public class User {
 	public void setRoles(Set<Roles> roles) {
 		this.roles = roles;
 	}
-	public Set<UserProblem> getSolvedProblems() {
+	
+	
+	public Set<SolvedProblem> getSolvedProblems() {
 		return solvedProblems;
 	}
-	public void setSolvedProblems(Set<UserProblem> solvedProblems) {
+	public void setSolvedProblems(Set<SolvedProblem> solvedProblems) {
 		this.solvedProblems = solvedProblems;
 	}
 	@Override

@@ -13,8 +13,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -26,7 +24,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import com.dextratech.dao.ProblemDao;
-import com.dextratech.dao.ProblemSolutionDao;
+import com.dextratech.dao.ProblemInputOutputDao;
 import com.dextratech.dto.CompiledResponseDTO;
 import com.dextratech.dto.OutputSolutionDTO;
 import com.dextratech.dto.Problem;
@@ -48,7 +46,7 @@ public class CodeService implements ResourceLoaderAware{
 	private Problem problem;
 	
 	@Autowired
-	private ProblemSolutionDao problemSolutionDao;
+	private ProblemInputOutputDao problemSolutionDao;
 	@Autowired
 	private ProblemDao problemDao;
 	
@@ -61,7 +59,7 @@ public class CodeService implements ResourceLoaderAware{
 			ByteArrayOutputStream compilationError = compileSourceCode();
 			if(compilationError == null) {
 				codeDTO.setCompilationStatus(COMPILATION_SUCCESS);
-				List<ProblemInputOutput> inputs = problemSolutionDao.getSolutionsForProblemId(solution.getProblemId());
+				List<ProblemInputOutput> inputs = problemSolutionDao.getInputsOutputsForProblemId(solution.getProblemId());
 				codeDTO.setSolutions(createOutputSolutionForInputList(inputs)); 
 			} else {
 				codeDTO.setCompilationStatus(COMPILATION_ERROR);
@@ -130,6 +128,7 @@ public class CodeService implements ResourceLoaderAware{
 				break;
 			}
 		}
+		
 		return solutions;	
 	}
 
