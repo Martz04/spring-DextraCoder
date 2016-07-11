@@ -17,7 +17,7 @@ public class SolvedProblem {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int userProblemId;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="userId")
@@ -26,14 +26,17 @@ public class SolvedProblem {
 	@JoinColumn(name="problemId")
 	private Problem problem;
 	
-	private Timestamp elapsedTime;
+	private String elapsedTime;
 	private int numberOfTries;
 	private String solution;
-	public int getId() {
-		return id;
+	
+	
+	
+	public int getUserProblemId() {
+		return userProblemId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setUserProblemId(int userProblemId) {
+		this.userProblemId = userProblemId;
 	}
 	public User getUser() {
 		return user;
@@ -47,10 +50,10 @@ public class SolvedProblem {
 	public void setProblem(Problem problem) {
 		this.problem = problem;
 	}
-	public Timestamp getElapsedTime() {
+	public String getElapsedTime() {
 		return elapsedTime;
 	}
-	public void setElapsedTime(Timestamp elapsedTime) {
+	public void setElapsedTime(String elapsedTime) {
 		this.elapsedTime = elapsedTime;
 	}
 	public int getNumberOfTries() {
