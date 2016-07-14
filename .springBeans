@@ -10,6 +10,7 @@
 		<config>src/com/dextratech/resources/service-config.xml</config>
 		<config>web/WEB-INF/servlet-context.xml</config>
 		<config>src/com/dextratech/resources/data-config.xml</config>
+		<config>src/com/dextratech/resources/security-config.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
