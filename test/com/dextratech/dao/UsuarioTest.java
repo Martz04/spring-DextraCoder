@@ -41,4 +41,5 @@ public class UsuarioTest {
 		List<Problem> problems = solvedDao.getUnsolvedProblemsForUser(user);
 		System.out.println(problems);
 	}
+	
 }

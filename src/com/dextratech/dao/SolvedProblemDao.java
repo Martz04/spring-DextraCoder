@@ -8,6 +8,7 @@ import com.dextratech.dto.User;
 
 public interface SolvedProblemDao {
 
+	public List<User> getUsersSolvedProblem(Problem problem);
 	public List<SolvedProblem> getSolvedProblemsForUser(User user);
 	public List<Problem> getUnsolvedProblemsForUser(User user);
 	public void setSolvedProblem(SolvedProblem solution);

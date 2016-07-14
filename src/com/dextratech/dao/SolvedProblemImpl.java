@@ -32,6 +32,15 @@ public class SolvedProblemImpl implements SolvedProblemDao {
 		getSession().persist(solution);
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUsersSolvedProblem(Problem problem) {
+		Query query = getSession().createQuery("SELECT sp.user FROM SolvedProblem as sp JOIN sp.problem as p WHERE p.problemId = :problemId");
+		query.setParameter("problemId", problem.getProblemId());
+		return query.list();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<SolvedProblem> getSolvedProblemsForUser(User user) {

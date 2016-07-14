@@ -24,7 +24,6 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import com.dextratech.dao.ProblemDao;
-import com.dextratech.dao.ProblemInputOutputDao;
 import com.dextratech.dto.CompiledResponseDTO;
 import com.dextratech.dto.OutputSolutionDTO;
 import com.dextratech.dto.Problem;
@@ -46,8 +45,6 @@ public class CodeService implements ResourceLoaderAware{
 	private Problem problem;
 	
 	@Autowired
-	private ProblemInputOutputDao problemSolutionDao;
-	@Autowired
 	private ProblemDao problemDao;
 	
 	public CompiledResponseDTO executeSolutionForProblem(UserSolutionDTO solution, String realPath) {
@@ -59,7 +56,7 @@ public class CodeService implements ResourceLoaderAware{
 			ByteArrayOutputStream compilationError = compileSourceCode();
 			if(compilationError == null) {
 				codeDTO.setCompilationStatus(COMPILATION_SUCCESS);
-				List<ProblemInputOutput> inputs = problemSolutionDao.getInputsOutputsForProblemId(solution.getProblemId());
+				List<ProblemInputOutput> inputs = problem.getProblemInputOutputs();
 				codeDTO.setSolutions(createOutputSolutionForInputList(inputs)); 
 			} else {
 				codeDTO.setCompilationStatus(COMPILATION_ERROR);

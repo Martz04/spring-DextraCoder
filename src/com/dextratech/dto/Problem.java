@@ -28,8 +28,7 @@ public class Problem {
 	
 	private int timesSolved;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinColumn(name="problemId", nullable=false, updatable=true, insertable=true)
+	@OneToMany(mappedBy="problem", fetch = FetchType.EAGER)
 	private List<ProblemInputOutput> problemInputOutputs;
 	
 	@OneToMany(mappedBy = "problem", fetch= FetchType.LAZY)
