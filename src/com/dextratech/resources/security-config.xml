@@ -12,7 +12,7 @@
 		<security:intercept-url pattern="/resources/**" access="permitAll"/>
 		<security:intercept-url pattern="/problem/random" access="permitAll"/>
 		<security:intercept-url pattern="/login" access="permitAll" />
-		<security:intercept-url pattern="/admin/**" access="hasRole('Admin')"/>
+		<security:intercept-url pattern="/admin/problemForm" access="hasAuthority('Admin')"/>
 		<security:intercept-url pattern="/**" access="denyAll" />
 		<security:form-login login-page="/login" 
 			login-processing-url="/j_spring_security_check"
