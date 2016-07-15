@@ -3,7 +3,7 @@
 	app.config(function($sceProvider) {
 		$sceProvider.enabled(false);
 	});
-	app.controller("TextController", ["$log", "$rootScope", "$http", function($log, $rootScope, $http){
+	app.controller("TextController", ["$log", "$rootScope", "$http", "$filter", function($log, $rootScope, $http, $filter){
 		this.codeSent = false;
 		this.consoleOutput = "";
 		this.problemParam= undefined;
@@ -12,7 +12,7 @@
 			var request = ({
 				method: "POST",
 				url: "compile",
-				data: {problemId: $rootScope.problemId, answer: $rootScope.editor.getValue()}
+				data: {problemId: $rootScope.problemId, answer: $rootScope.editor.getValue(), time: $filter('clock')($rootScope.counter)}
 			});
 			$http(request).then(function(data){
 				textController.consoleOutput = data.data;

@@ -86,6 +86,16 @@ public class DextraCoder {
 	private static float convertToFloat(String input) {
 		return Float.parseFloat(input);
 	}
+	private static long[] convertToLongArray(String[] inputs) {
+		long[] longInputs = new long[inputs.length];
+		for (int i = 0; i < inputs.length; i++) {
+			longInputs[i] = Long.parseLong(inputs[i]);
+		}
+		return longInputs;
+	}
+	private static long convertToLong(String input) {
+		return Long.parseLong(input);
+	}
 	public static void main(String[] args) {
 		String type = args[0];
 		int n = args.length - 1;

@@ -20,7 +20,7 @@
  <body ng-controller="TextController as textCtrl" ng-init="textCtrl.loadProblem()">
     <div class="wrapper">
       <div class="clear">
-      	<h1 class="inline">Dextra Coder 2</h1>
+      	<h1 class="inline">Dextra Code Skills</h1>
       	<span ng-controller="TimerController as timerCtrl"
       		class="timer">{{counter | clock}}</span>
       </div>

@@ -29,7 +29,7 @@ public class SolvedProblemImpl implements SolvedProblemDao {
 
 	@Override
 	public void setSolvedProblem(SolvedProblem solution) {
-		getSession().persist(solution);
+		getSession().saveOrUpdate(solution);
 	}
 
 	

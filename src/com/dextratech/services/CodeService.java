@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -24,10 +25,14 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import com.dextratech.dao.ProblemDao;
+import com.dextratech.dao.SolvedProblemDao;
+import com.dextratech.dao.UserDao;
 import com.dextratech.dto.CompiledResponseDTO;
 import com.dextratech.dto.OutputSolutionDTO;
 import com.dextratech.dto.Problem;
 import com.dextratech.dto.ProblemInputOutput;
+import com.dextratech.dto.SolvedProblem;
+import com.dextratech.dto.User;
 import com.dextratech.dto.UserSolutionDTO;
 import com.dextratech.utils.ParameterUtils;
 
@@ -43,12 +48,18 @@ public class CodeService implements ResourceLoaderAware{
 	private Path sourceFilePath;
 	private ResourceLoader resourceLoader;
 	private Problem problem;
+	private User user;
 	
 	@Autowired
 	private ProblemDao problemDao;
+	@Autowired
+	private SolvedProblemDao solvedDao;
+	@Autowired
+	private UserDao userDao;
 	
-	public CompiledResponseDTO executeSolutionForProblem(UserSolutionDTO solution, String realPath) {
+	public CompiledResponseDTO executeSolutionForProblem(UserSolutionDTO solution, String realPath, Principal principal) {
 		CompiledResponseDTO codeDTO = new CompiledResponseDTO();
+		user = userDao.getUserByName(principal.getName());
 		problem = problemDao.getProblem(solution.getProblemId());
 		try {
 			createSourceFileWithPath(realPath);
@@ -57,7 +68,7 @@ public class CodeService implements ResourceLoaderAware{
 			if(compilationError == null) {
 				codeDTO.setCompilationStatus(COMPILATION_SUCCESS);
 				List<ProblemInputOutput> inputs = problem.getProblemInputOutputs();
-				codeDTO.setSolutions(createOutputSolutionForInputList(inputs)); 
+				codeDTO.setSolutions(createOutputSolutionForInputList(inputs, solution)); 
 			} else {
 				codeDTO.setCompilationStatus(COMPILATION_ERROR);
 				codeDTO.setOutput(formatError(compilationError.toString()));
@@ -116,7 +127,7 @@ public class CodeService implements ResourceLoaderAware{
 		}
 	}
 	
-	private List<OutputSolutionDTO> createOutputSolutionForInputList(List<ProblemInputOutput> inputs) throws IOException{
+	private List<OutputSolutionDTO> createOutputSolutionForInputList(List<ProblemInputOutput> inputs, UserSolutionDTO solution) throws IOException{
 		List<OutputSolutionDTO> solutions = new ArrayList<>();
 		for (ProblemInputOutput input : inputs) {
 			OutputSolutionDTO s = executeProgramForInput(input);
@@ -125,8 +136,26 @@ public class CodeService implements ResourceLoaderAware{
 				break;
 			}
 		}
-		
+		if(allCorrectSolutions(solutions)) {
+			SolvedProblem solvedProblem = new SolvedProblem();
+			solvedProblem.setUser(user);
+			solvedProblem.setProblem(problem);
+			solvedProblem.setElapsedTime(solution.getTime());
+			solvedProblem.setNumberOfTries(1);
+			solvedProblem.setSolution(solution.getAnswer());
+			solvedDao.setSolvedProblem(solvedProblem);
+		}
 		return solutions;	
+	}
+
+	private boolean allCorrectSolutions(List<OutputSolutionDTO> solutions) {
+		boolean correct = true;
+		for(OutputSolutionDTO dto : solutions) {
+			if(!dto.isPassed()) {
+				correct = false;
+			}
+		}
+		return correct;
 	}
 
 	private OutputSolutionDTO executeProgramForInput(ProblemInputOutput input) throws IOException{

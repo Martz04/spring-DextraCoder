@@ -11,6 +11,8 @@ public class ParameterUtils {
 	private static final String floatArray = "float[]";
 	private static final String floatValue = "float";
 	private static final String stringValue = "String";
+	private static final String longArray = "long[]";
+	private static final String longValue = "long";
 	
 	public static String getParameterFromText(String text) {
 		StringBuilder  builder = new StringBuilder();
@@ -23,6 +25,9 @@ public class ParameterUtils {
 		}else if(tryMatching("Float", text) || tryMatching("float", text)
 				|| tryMatching("Floats", text) || tryMatching("floats", text)) {
 			builder.append("float");
+		}else if(tryMatching("Long", text) || tryMatching("long", text)
+				|| tryMatching("Longs", text) || tryMatching("longs", text)){
+			builder.append("long");
 		}else {
 			builder.append("String");
 		}
@@ -58,6 +63,12 @@ public class ParameterUtils {
 			break;
 		case floatValue:
 			type = "float.value";
+			break;
+		case longArray:
+			type = "long.array";
+			break;
+		case longValue:
+			type = "long.value";
 			break;
 		case stringValue:
 			type = "string.value";

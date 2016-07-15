@@ -7,7 +7,9 @@
 
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/" access="isAuthenticated()"/>
-		<security:intercept-url pattern="/resources/**" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/timeout" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/compile" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/resources/**" access="permitAll"/>
 		<security:intercept-url pattern="/problem/random" access="permitAll"/>
 		<security:intercept-url pattern="/login" access="permitAll" />
 		<security:intercept-url pattern="/admin/**" access="hasRole('Admin')"/>

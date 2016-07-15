@@ -4,6 +4,7 @@ public class UserSolutionDTO {
 
 	private int problemId;
 	private String answer;
+	private String time;
 	
 	public int getProblemId() {
 		return problemId;
@@ -25,7 +26,12 @@ public class UserSolutionDTO {
 	public String toString() {
 		return "ProblemSolution [problemId=" + problemId + ", answer=" + answer + "]";
 	}
-	
-	
-	
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
 }

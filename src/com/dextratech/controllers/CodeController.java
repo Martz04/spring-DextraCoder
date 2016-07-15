@@ -1,5 +1,6 @@
 package com.dextratech.controllers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class CodeController {
 			produces="application/json",
 			method=RequestMethod.GET)
 	public @ResponseBody ProblemParametersDTO setProblemToResolve() {
-		//TODO Mock User, add Security later.
+		//TODO Mock User,
 		User user = userService.getUserbyId(1);
 		return problemService.getRandomProblemForUser(user);
 	}
@@ -45,10 +46,9 @@ public class CodeController {
 			produces="application/json", 
 			method=RequestMethod.POST)
 	public @ResponseBody CompiledResponseDTO compileResult(
-			@RequestBody UserSolutionDTO solution, HttpServletRequest request) {
-		 
+			@RequestBody UserSolutionDTO solution, HttpServletRequest request, Principal principal) {
         return codeService.executeSolutionForProblem(solution, 
-				request.getServletContext().getRealPath("/"));
+				request.getServletContext().getRealPath("/"), principal);
 	}
 	
 	@RequestMapping(value="/timeout",
@@ -56,9 +56,9 @@ public class CodeController {
 			produces="application/json", 
 			method=RequestMethod.POST)
 	public @ResponseBody CompiledResponseDTO timeout(
-			@RequestBody UserSolutionDTO solution, HttpServletRequest request) {
+			@RequestBody UserSolutionDTO solution, HttpServletRequest request, Principal principal) {
 		 System.out.println("Timeout solving response");
         return codeService.executeSolutionForProblem(solution, 
-				request.getServletContext().getRealPath("/"));
+				request.getServletContext().getRealPath("/"), principal);
 	}
 }
