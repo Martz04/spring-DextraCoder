@@ -28,7 +28,7 @@
         <div class="column float-left panel panel-default">
           <div class="panel-body">
             <h4>{{textCtrl.problemParam.problem.title}}</h4>
-            <p ng-bind-html="problem.description"></p>
+			<p ng-bind-html="textCtrl.problemParam.problem.description"></p>
             <strong>Input Description:</strong><br>
             <p ng-bind-html="textCtrl.problemParam.problem.inputDescription"></p>
             <strong>Output Description:</strong><br>

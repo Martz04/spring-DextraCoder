@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dextratech.dao.UserDao;
-import com.dextratech.dto.Roles;
+import com.dextratech.dto.Rol;
 import com.dextratech.dto.User;
 
 
@@ -28,7 +28,7 @@ public class UserService {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		User user = userDao.getUserByName(name);
 		if(user != null) {
-			for(Roles role : user.getRoles()) {
+			for(Rol role : user.getRoles()) {
 				authorities.add(new SimpleGrantedAuthority(role.getDescription()));
 			}
 			org.springframework.security.core.userdetails.User springUser = new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), authorities);

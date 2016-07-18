@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,22 +11,20 @@
 </head>
 <body>
 <div class="wrapper">
-	<h1>Login Access</h1>
-	<c:if test="${param.error != null}">
-		<p> Invalid username / password </p>
-	</c:if>
+	<h1>Register</h1>
+	<c:out value="${status}"></c:out>
 	
-	<form action="j_spring_security_check" method="post">
+	<sf:form action="${pageContext.request.contextPath}/register/save" method="post" commandName="newUser">
 		<div class="form-group">
 			<label for="username">Username</label>
-			<input type="text" name="user" value="" class="form-control" placeholder="Username">
+			<sf:input type="text" path="name" value="" class="form-control" placeholder="Your name"></sf:input>
 			
 			<label for="password">Password</label>	
-			<input type="password" name="pwd" class="form-control" placeholder="Password"/>
+			<sf:password path="password" class="form-control"></sf:password>
 			<input type="submit" name="submit" value="submit" class="btn btn-default">
 		</div>
-	</form>
-	<a href="${pageContext.request.contextPath}/register">Register</a>
+	</sf:form>
+	<a href="${pageContext.request.contextPath}/login">Return to Login</a>
 </div>
 </body>
 </html>

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dextratech.dto.Roles;
+import com.dextratech.dto.Rol;
 import com.dextratech.dto.User;
 
 @Transactional
@@ -39,25 +39,25 @@ public class UserImpl implements UserDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Roles> getRolesByUserId(int userId) {
+	public List<Rol> getRolesByUserId(int userId) {
 		
 		return getSession().createQuery("from Roles r where r.userId = :userId")
 				.setParameter("userId", userId).list();
 	}
 
 	@Override
-	public void saveNewUser(UserDao user) {
-		getSession().save(user);
+	public void saveNewUser(User user) {
+		getSession().saveOrUpdate(user);
 
 	}
 
 	@Override
-	public void deleteUser(UserDao user) {
+	public void deleteUser(User user) {
 		getSession().delete(user);
 	}
 
 	@Override
-	public void updateUser(UserDao user) {
+	public void updateUser(User user) {
 		getSession().update(user);
 	}
 

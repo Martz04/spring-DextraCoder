@@ -1,6 +1,8 @@
 package com.dextratech.dao;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.dextratech.dto.Problem;
+import com.dextratech.dto.Rol;
 import com.dextratech.dto.SolvedProblem;
 import com.dextratech.dto.User;
 
@@ -42,4 +45,16 @@ public class UsuarioTest {
 		System.out.println(problems);
 	}
 	
+	@Test
+	public void testSaveNewUser() {
+		Set<Rol> roles = new HashSet<>();
+		Rol rol = new Rol();
+		rol.setDescription("Coder");
+		roles.add(rol);
+		User user = new User();
+		user.setName("Ricardo");
+		user.setPassword("123");
+		user.setRoles(roles);
+		userDao.saveNewUser(user);
+	}
 }

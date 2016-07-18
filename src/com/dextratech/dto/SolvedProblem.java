@@ -1,7 +1,5 @@
 package com.dextratech.dto;
 
-import java.sql.Timestamp;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

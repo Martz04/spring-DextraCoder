@@ -15,14 +15,23 @@
 	<jee:jndi-lookup jndi-name="jdbc/dextraCoder" id="dataSource"
 		expected-type="javax.sql.DataSource">
 	</jee:jndi-lookup>
-	 
-	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	  
+	<!-- HOME -->
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://localhost:3306/dextra_coder_dev"></property>
 		<property name="username" value="root"></property>
 		<property name="password" value="9amyZ3sa"></property>
 	</bean>
 	 --> 
+	 <!-- DEXTRA -->
+	 <!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/dextra_coder_dev"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="sda123"></property>
+	</bean>
+	 -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="packagesToScan" value="com.dextratech.dto"></property>

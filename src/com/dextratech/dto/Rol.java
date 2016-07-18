@@ -1,5 +1,6 @@
 package com.dextratech.dto;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,10 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Roles {
+public class Rol {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="roleId")
 	private int roleId;
 	private String description;
 	@ManyToOne
@@ -21,9 +23,7 @@ public class Roles {
 	public int getRoleId() {
 		return roleId;
 	}
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
+	
 	public String getDescription() {
 		return description;
 	}
