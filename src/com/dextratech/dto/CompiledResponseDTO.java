@@ -7,6 +7,7 @@ public class CompiledResponseDTO {
 	private int compilationStatus;
 	private String output;
 	private List<OutputSolutionDTO> solutions;
+	private boolean finish;
 	
 	
 	public int getCompilationStatus() {
@@ -26,6 +27,12 @@ public class CompiledResponseDTO {
 	}
 	public void setSolutions(List<OutputSolutionDTO> solutions) {
 		this.solutions = solutions;
+	}
+	public boolean isFinish() {
+		return finish;
+	}
+	public void setFinish(boolean finish) {
+		this.finish = finish;
 	}
 	
 	

@@ -20,26 +20,24 @@
 			return minutesText.concat(":").concat(secondsText);
 		}
 	});
-	app.controller("TimerController", ["$rootScope", "$log", "$http", "$timeout", "$interval", function($rootScope, $log, $http, $timeout, $interval){
+	app.controller("TimerController", ["$rootScope", "$log", "$http", "$timeout", "$interval", "$filter", function($rootScope, $log, $http, $timeout, $interval, $filter){
 		$rootScope.counter = 0;
 		this.onTimeout = function() {
 			var request = ({
 				method: "POST",
 				url: "timeout",
-				data: {problemId: $rootScope.problemId, answer: $rootScope.editor.getValue()}
+				data: {problemId: $rootScope.problemId, answer: $rootScope.editor.getValue(), time: $filter('clock')($rootScope.counter)}
 			});
-			$http(request).then(function(data){
-				$log.info(data);
-			}, function(data){
-				$log.info("error");
+			$http(request).then($rootScope.codeResponse, function(data){
+				$log.info("error at " + data);
 			});
 		}
 		this.repeatTime = function() {
 			$rootScope.counter++;
 		}
-		var timeoutCounter = $timeout(this.onTimeout, 10000);
+		$rootScope.timeoutCounter = $timeout(this.onTimeout, 15 * 60 * 1000);
 		
-		$interval(this.repeatTime, 1000);	
+		$rootScope.intervalPromise = $interval(this.repeatTime, 1000);	
 				
 	}]);
 })();

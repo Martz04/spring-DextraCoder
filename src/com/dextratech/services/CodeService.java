@@ -57,7 +57,8 @@ public class CodeService implements ResourceLoaderAware{
 	@Autowired
 	private UserDao userDao;
 	
-	public CompiledResponseDTO executeSolutionForProblem(UserSolutionDTO solution, String realPath, Principal principal) {
+	public CompiledResponseDTO executeSolutionForProblem(UserSolutionDTO solution, String realPath, 
+			Principal principal, int numberOfTries) {
 		CompiledResponseDTO codeDTO = new CompiledResponseDTO();
 		user = userDao.getUserByName(principal.getName());
 		problem = problemDao.getProblem(solution.getProblemId());

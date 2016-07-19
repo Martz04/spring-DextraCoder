@@ -1,8 +1,6 @@
 package com.dextratech.controllers;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -46,9 +44,27 @@ public class CodeController {
 			produces="application/json", 
 			method=RequestMethod.POST)
 	public @ResponseBody CompiledResponseDTO compileResult(
-			@RequestBody UserSolutionDTO solution, HttpServletRequest request, Principal principal) {
-        return codeService.executeSolutionForProblem(solution, 
-				request.getServletContext().getRealPath("/"), principal);
+			@RequestBody UserSolutionDTO solution, 
+			HttpSession session,
+			HttpServletRequest request, Principal principal) {
+		Integer numberOfTries = setNumberOfTries(session);
+		CompiledResponseDTO response = codeService.executeSolutionForProblem(solution, 
+				request.getServletContext().getRealPath("/"), principal, numberOfTries);
+		if(response.isFinish()) {
+			session.setAttribute("numberOfTries", 0);
+		}
+		return response;
+	}
+
+	private Integer setNumberOfTries(HttpSession session) {
+		Integer numberOfTries = (Integer)session.getAttribute("numberOfTries");
+		if(numberOfTries == null) {
+			numberOfTries = new Integer(1);
+			session.setAttribute("numberOfTries", numberOfTries);
+		}else {
+			session.setAttribute("numberOfTries", numberOfTries + 1);
+		}
+		return numberOfTries;
 	}
 	
 	@RequestMapping(value="/timeout",
@@ -56,9 +72,12 @@ public class CodeController {
 			produces="application/json", 
 			method=RequestMethod.POST)
 	public @ResponseBody CompiledResponseDTO timeout(
-			@RequestBody UserSolutionDTO solution, HttpServletRequest request, Principal principal) {
-		 System.out.println("Timeout solving response");
-        return codeService.executeSolutionForProblem(solution, 
-				request.getServletContext().getRealPath("/"), principal);
+			@RequestBody UserSolutionDTO solution, HttpServletRequest request, 
+			Principal principal, HttpSession session) {
+		Integer numberOfTries = setNumberOfTries(session);
+		CompiledResponseDTO response = codeService.executeSolutionForProblem(solution, 
+				request.getServletContext().getRealPath("/"), principal, numberOfTries);
+		response.setFinish(true);
+		return response;
 	}
 }

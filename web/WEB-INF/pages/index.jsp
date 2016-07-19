@@ -50,7 +50,8 @@
           		
           	</div>
           </div> 
-          <button type="button" id="myButton" data-loading-text="Loading..." class="btn btn-default float-right block" ng-click="textCtrl.submitCode()"> Enviar codigo </button>
+          <button ng-hide="textCtrl.consoleOutput.finish" type="button" id="myButton" data-loading-text="Loading..." class="btn btn-default float-right block" ng-click="textCtrl.submitCode()"> Enviar codigo </button>
+        <a ng-show="textCtrl.consoleOutput.finish" href="${pageContext.request.contextPath}/index">Return</a>
         </div>
       </section>   
     </div>

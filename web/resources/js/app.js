@@ -3,22 +3,27 @@
 	app.config(function($sceProvider) {
 		$sceProvider.enabled(false);
 	});
-	app.controller("TextController", ["$log", "$rootScope", "$http", "$filter", function($log, $rootScope, $http, $filter){
+	app.controller("TextController", ["$log", "$rootScope", "$http", "$filter", "$interval", "$timeout", function($log, $rootScope, $http, $filter, $interval, $timeout){
 		this.codeSent = false;
 		this.consoleOutput = "";
 		this.problemParam= undefined;
 		var textController = this;
+		$rootScope.codeResponse = function(data){
+			textController.consoleOutput = data.data;
+			$log.info(textController.consoleOutput);
+			textController.codeSent = true;
+			if(textController.consoleOutput.finish) {
+				$interval.cancel($rootScope.intervalPromise);
+				$timeout.cancel($rootScope.timeoutCounter);
+			}
+		}
 		this.submitCode = function() {
 			var request = ({
 				method: "POST",
 				url: "compile",
 				data: {problemId: $rootScope.problemId, answer: $rootScope.editor.getValue(), time: $filter('clock')($rootScope.counter)}
 			});
-			$http(request).then(function(data){
-				textController.consoleOutput = data.data;
-				$log.info(textController.consoleOutput);
-				textController.codeSent = true;
-			}, function(data){
+			$http(request).then($rootScope.codeResponse, function(data){
 				$log.info("error");
 				textController.consoleOutput = data.data;
 				textController.codeSent = true;
@@ -41,9 +46,6 @@
 			}, function error(response){
 				$log.info("Error" + response.data);
 			});
-		}
-		this.startTimer = function() {
-			
 		}
 		this.isCodeSent = function() {
 			return this.codeSent;
