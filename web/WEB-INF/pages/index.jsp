@@ -9,11 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Text Code Editor</title>
     <link href="<c:url value='/resources/css/styles.css' />" rel="stylesheet">
+    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
     <link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet">
-    <script src="<c:url value="/resources/js/jquery-3.0.0.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/angular.min.js" />"></script>
     <script src="<c:url value="/resources/ace-builds/src-min-noconflict/ace.js" />" type="text/javascript" charset="utf-8"></script>
     <script src="<c:url value="/resources/js/timer.js" />"></script>
+    <script src="<c:url value="/resources/js/solution.js" />"></script>
     <script src="<c:url value="/resources/js/form.js" />"></script>
     <script src="<c:url value="/resources/js/app.js" />"></script>
   </head>

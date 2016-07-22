@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module("codeEditor", ["codeTimer", "problemForm"]);
+	var app = angular.module("codeEditor", ["codeTimer", "problemForm", "solutions"]);
 	app.config(function($sceProvider) {
 		$sceProvider.enabled(false);
 	});
