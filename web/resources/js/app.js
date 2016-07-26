@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module("codeEditor", ["codeTimer", "problemForm", "solutions"]);
+	var app = angular.module("codeEditor", ["codeTimer", "problemForm", "solutions", "ui.ace"]);
 	app.config(function($sceProvider) {
 		$sceProvider.enabled(false);
 	});
@@ -33,19 +33,18 @@
 			$http.get("problem/random").then(function success(response) {
 				textController.problemParam = response.data;
 				$rootScope.problemId = response.data.problem.problemId;
-				$log.info($rootScope.problemId);
-				$rootScope.editor = ace.edit("editor");
-				$rootScope.editor.setTheme("ace/theme/eclipse");
 				$rootScope.editor.$blockScrolling = "Infinity";
-				$rootScope.editor.getSession().setMode("ace/mode/java");
 				$rootScope.editor.insert("public ");
 				$rootScope.editor.insert(textController.problemParam.outputParams);
 				$rootScope.editor.insert(" solution(");
 				$rootScope.editor.insert(textController.problemParam.inputParams);
-				$rootScope.editor.insert("){\n\treturn\n}");
+				$rootScope.editor.insert("){\n\treturn args;\n}");
 			}, function error(response){
 				$log.info("Error" + response.data);
 			});
+		}
+		$rootScope.aceLoaded = function(_editor) {
+			$rootScope.editor = _editor;
 		}
 		this.isCodeSent = function() {
 			return this.codeSent;

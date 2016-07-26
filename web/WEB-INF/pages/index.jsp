@@ -13,6 +13,8 @@
     <link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet">
     <script src="<c:url value="/resources/js/angular.min.js" />"></script>
     <script src="<c:url value="/resources/ace-builds/src-min-noconflict/ace.js" />" type="text/javascript" charset="utf-8"></script>
+    <script src="<c:url value="/resources/js/ui-ace.js" />"></script>
+    <script src="<c:url value="/resources/ace-builds/src-min-noconflict/ext-language_tools.js" />"></script>
     <script src="<c:url value="/resources/js/timer.js" />"></script>
     <script src="<c:url value="/resources/js/solution.js" />"></script>
     <script src="<c:url value="/resources/js/form.js" />"></script>
@@ -41,7 +43,19 @@
           </div>
         </div>
         <div class="column column-alt float-left grouping">
-          <div id="editor" class="panel panel-default"> </div>
+          <div ui-ace="{
+          	require: ['ace/ext/language_tools'],
+          	advanced: {
+          		enableSnippets: true,
+      			enableBasicAutocompletion: true,
+      			enableLiveAutocompletion: true
+          	},
+          	useWrapMode : false,
+  			showGutter: true,
+  			theme:'eclipse',
+  			mode: 'java',
+  			onLoad: aceLoaded
+          }"> </div>
           <div  id="console" class="panel panel-default console block clear">
           	Console output: <br> 
           	{{textCtrl.consoleOutput.output}} <br>
