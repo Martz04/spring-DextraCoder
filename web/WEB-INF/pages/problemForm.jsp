@@ -1,22 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<!DOCTYPE html>
-<html lang="en" ng-app="codeEditor">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Problem</title>
-    <link href="<c:url value='/resources/css/styles.css' />" rel="stylesheet">
-    <link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet">
-    <script src="<c:url value="/resources/js/jquery-3.0.0.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/angular.min.js" />"></script>
-    <script src="<c:url value="/resources/js/timer.js" />"></script>
-    <script src="<c:url value="/resources/js/form.js" />"></script>
-    <script src="<c:url value="/resources/js/app.js" />"></script>
-  </head>
+<jsp:include page="header.jsp"></jsp:include>
   <body ng-controller="FormController as formCtrl">
+  	<jsp:include page="menu.jsp"></jsp:include>
 	<div class="wrapper grouping">
 		<section class="column float-left panel panel-default">
 			<h3>Add a new problem</h3>

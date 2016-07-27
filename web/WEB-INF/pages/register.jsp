@@ -7,7 +7,7 @@
 <head>
 <link href="<c:url value='/resources/css/styles.css' />" rel="stylesheet" type="text/css">
 <link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet" type="text/css">
-<title>Dextra Code Skills</title>
+<title>Dextra Coder</title>
 </head>
 <body>
 <div class="wrapper">
