@@ -30,6 +30,11 @@ public class CodeController {
 	@Autowired
 	private UserService userService;
 	
+	@RequestMapping(value="/solve")
+	public String solveProblem() {
+		return "solve";
+	}
+	
 	@RequestMapping(value="/problem/random",
 			produces="application/json",
 			method=RequestMethod.GET)

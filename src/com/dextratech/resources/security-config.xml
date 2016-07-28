@@ -6,16 +6,18 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<security:http use-expressions="true">
+		<security:intercept-url pattern="/login" access="permitAll" />
+		<security:intercept-url pattern="/resources/**" access="permitAll"/>
+		<security:intercept-url pattern="/problem/random" access="permitAll"/>
+		<security:intercept-url pattern="/register/**" access="permitAll" />
 		<security:intercept-url pattern="/" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/solve" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/timeout" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/solutions" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/solutions/data" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/compile" access="isAuthenticated()"/>
-		<security:intercept-url pattern="/resources/**" access="permitAll"/>
-		<security:intercept-url pattern="/problem/random" access="permitAll"/>
-		<security:intercept-url pattern="/login" access="permitAll" />
-		<security:intercept-url pattern="/register/**" access="permitAll" />
 		<security:intercept-url pattern="/admin/problemForm" access="hasAuthority('Admin')"/>
+		<security:intercept-url pattern="/admin/problemUsers" access="hasAuthority('Admin')"/>
 		<security:intercept-url pattern="/**" access="denyAll" />
 		<security:form-login login-page="/login" 
 			login-processing-url="/j_spring_security_check"

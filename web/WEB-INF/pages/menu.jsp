@@ -1,18 +1,27 @@
+<sec:authentication var="principal" property="principal" />
 <nav class="navbar navbar-default navbar-fixed-top" ng-controller="MenuController as menuCtrl">
   <div class="container">
+  	<div class="nav navbar-nav navbar-left">
+  		<h3>Hello ${principal.username}</h3>
+  	</div>
     <ul class="nav navbar-nav navbar-right">
     	<li ng-class="{active:menuCtrl.isSelected(1)}">
     		<a ng-click="menuCtrl.setSelected(1)" 
-    		href="${pageContext.request.contextPath}/index">Home</a>
+    		href="${pageContext.request.contextPath}/">Home</a>
     	<li ng-class="{active:menuCtrl.isSelected(2)}">
     		<a ng-click="menuCtrl.setSelected(2)" 
-    		href="${pageContext.request.contextPath}/index">Solve Problem</a>
-    	<li ng-class="{active:menuCtrl.isSelected(3)}">
-    		<a ng-click="menuCtrl.setSelected(3)" 
-    		href="${pageContext.request.contextPath}/admin/problemForm">Add Problem</a>
+    		href="${pageContext.request.contextPath}/solve">Solve Problem</a>
     	<li ng-class="{active:menuCtrl.isSelected(4)}">
     		<a ng-click="menuCtrl.setSelected(4)" 
     		href="${pageContext.request.contextPath}/solutions">See your solutions</a>
+    	<li ng-class="dropdown">
+    		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+    		aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+    		<ul class="dropdown-menu">
+    			<li><a href="${pageContext.request.contextPath}/admin/problemForm">Add Problem</a></li>
+    			<li><a href="${pageContext.request.contextPath}/admin/problemUsers">Map Problems</a></li>
+    		</ul> 
+    	</li>	
     </ul>
   </div>
 </nav>

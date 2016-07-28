@@ -22,6 +22,11 @@ public class AdminController {
 		return "problemForm";
 	}
 	
+	@RequestMapping(value="/admin/problemUsers", method=RequestMethod.GET)
+	public String getMapProblems(){
+		return "problemUsers";
+	}
+	
 	@RequestMapping(value="/admin/problemForm/save", 
 			method=RequestMethod.POST, 
 			produces="application/json",
